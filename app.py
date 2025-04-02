@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 import redis
+import os
 
 # Tworzymy ręcznie mały zbiór treningowy
 X_train = np.array([[1], [2], [3], [4], [5]])  # Przykładowe dane wejściowe
@@ -17,10 +18,13 @@ model.fit(X_train, y_train)
 # Rozbudowujemy nasz serwer Flask o logikę walidacyjną
 app = Flask(__name__)
 
+# Pobranie zmiennej środowiskowej
+api_key = os.getenv('API_KEY', 'default_api_key')  # 'default_api_key' to domyślna wartość, gdy zmienna nie jest ustawiona
+
 
 @app.route('/')
-def home():
-    return jsonify({"message": "Witaj w moim API z modelem ML."})
+def hello():
+    return f"Hello, your API key is: {api_key}"
 
 
 # Endpoint do predykcji
